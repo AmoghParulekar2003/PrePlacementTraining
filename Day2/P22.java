@@ -15,7 +15,13 @@ class P22 {
 
             for (int j = 0; j < subjects.length; j++) {
                 System.out.println("Enter subject marks: ");
-                subjects[j] = sc.nextInt();  
+                int check = sc.nextInt();
+                if (check > 100) {
+                    System.out.println("Marks not valid");
+                    j--;
+                } else {
+                    subjects[j] = check;  
+                }
             }
             int max = 0;
             for (int k = 0; k < subjects.length; k++) {
