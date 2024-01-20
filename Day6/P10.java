@@ -1,5 +1,12 @@
 import java.util.Scanner;
 
+interface RBI {
+    int roi_sa = 4/100;
+    int roi_ca = 2/100;
+    int min_bal = 1000;
+    int max_with = 1000;
+}
+
 abstract class BankAccount {
     Scanner sc = new Scanner(System.in);
     int c_accno[] = new int[5];
@@ -41,13 +48,13 @@ abstract class BankAccount {
     abstract void withdraw();
 }
 
-class SavingsAccount extends BankAccount {
+class SavingsAccount extends BankAccount implements RBI{
     void withdraw() {
         System.out.println("Enter your account number: ");
         int check = sc.nextInt();
         for(int a = 0; a < i; a++) {
             if(check - 1 == a) {
-                if(account[a].equals("savings") && c_balance[a] < 1000) {
+                if(account[a].equals("savings") && c_balance[a] < RBI.min_bal) {
                     System.out.println("Money cannot be withdrawn");
                 } else {
                     System.out.println("Enter amount to be withdrawn: ");
@@ -71,7 +78,7 @@ class SavingsAccount extends BankAccount {
     }
 }
 
-class CurrentAccount extends BankAccount {
+class CurrentAccount extends BankAccount implements RBI{
     void withdraw() {
         System.out.println("Enter your account number: ");
         int check = sc.nextInt();
@@ -79,7 +86,11 @@ class CurrentAccount extends BankAccount {
             if(check - 1 == a) {
                 System.out.println("Enter amount to be withdrawn: ");
                 int with = sc.nextInt();
-                c_balance[a] = c_balance[a] - with;
+                if(with <= RBI.max_with) {
+                    c_balance[a] = c_balance[a] - with;
+                } else {
+                    System.out.println("Withdrawal limit exceeded");
+                }
             }
             }
         }
@@ -97,28 +108,28 @@ class CurrentAccount extends BankAccount {
     }
 }
 
-class Interest1 extends SavingsAccount {
+class Interest1 extends SavingsAccount implements RBI {
     void calcInterest() {
         System.out.println("Enter your account number: ");
         int check = sc.nextInt();
-        System.out.println("Your interest will be of 4% on your balance");
+        System.out.println("Your interest will be of "+RBI.roi_sa+" on your balance");
         for(int a = 0; a < i; a++) {
             if(check - 1 == a) {
-                int interest = c_balance[a] * 4/100;
+                int interest = c_balance[a] * roi_sa;
                 System.out.println("Your interest is: "+interest);
             }
         }
     }
 }
 
-class Interest2 extends CurrentAccount {
+class Interest2 extends CurrentAccount implements RBI {
     void calcInterest() {
         System.out.println("Enter your account number: ");
         int check = sc.nextInt();
-        System.out.println("Your interest will be of 2% on your balance");
+        System.out.println("Your interest will be of"+RBI.roi_ca+"on your balance");
         for(int a = 0; a < i; a++) {
             if(check - 1 == a) {
-                int interest = c_balance[a] * 2/100;
+                int interest = c_balance[a] * roi_ca;
                 System.out.println("Your interest is: "+interest);
             }
         }
