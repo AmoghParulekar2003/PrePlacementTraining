@@ -10,7 +10,7 @@ class MyThread extends Thread {
     }
 }
 
-public class Multithreading {
+public class Multithreading1 {
     public static void main(String[] args) {
         MyThread m = new MyThread();
         m.start();
